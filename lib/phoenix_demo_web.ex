@@ -32,6 +32,7 @@ defmodule PhoenixDemoWeb do
       use Phoenix.View,
         root: "lib/phoenix_demo_web/templates",
         namespace: PhoenixDemoWeb
+        use Appsignal.Phoenix.View
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
