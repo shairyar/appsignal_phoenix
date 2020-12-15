@@ -18,6 +18,7 @@ defmodule PhoenixDemoWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    resources "/users", UserController
 
     live "/posts", PostLive.Index, :index
     live "/posts/new", PostLive.Index, :new
