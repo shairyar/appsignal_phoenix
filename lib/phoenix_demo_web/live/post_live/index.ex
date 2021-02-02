@@ -9,6 +9,9 @@ defmodule PhoenixDemoWeb.PostLive.Index do
   @impl true
   def mount(_params, _session, socket) do
     live_view_action(__MODULE__, "mount", socket, fn ->
+      Appsignal.Span.set_sample_data(Appsignal.Tracer.root_span, "custom_data", %{
+        name: "John Doe"
+      })
       if connected?(socket), do: Timeline.subscribe()
       {:ok, assign(socket, :posts, fetch_posts()), temporary_assigns: [posts: []]}
     end)
@@ -63,6 +66,7 @@ defmodule PhoenixDemoWeb.PostLive.Index do
   end
 
   defp fetch_posts do
+    raise 'oops'
     Timeline.list_posts()
   end
 end
