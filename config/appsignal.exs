@@ -3,5 +3,7 @@ use Mix.Config
 config :appsignal, :config,
   otp_app: :phoenix_demo,
   name: "phoenix_demo",
-  push_api_key: "your-key",
+  push_api_key: "a1d7abab-dcbf-464b-a546-bb535e6ec73c",
+  debug: true,
+  transaction_debug_mode: true,
   env: Mix.env
