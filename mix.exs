@@ -5,7 +5,7 @@ defmodule PhoenixDemo.MixProject do
     [
       app: :phoenix_demo,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.9",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -47,7 +47,7 @@ defmodule PhoenixDemo.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:appsignal_phoenix, github: "appsignal/appsignal-elixir-phoenix", branch: "live_view_namespace"}
+      {:appsignal_phoenix, "~> 2.0.0"}
 
     ]
   end
