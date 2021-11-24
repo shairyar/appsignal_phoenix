@@ -6,4 +6,5 @@ config :appsignal, :config,
   debug: true,
   transaction_debug_mode: true,
   log_path: "logs",
-  env: Mix.env
+  env: Mix.env,
+  filter_parameters: ["user_created"]
