@@ -7,6 +7,8 @@
 # General application configuration
 use Mix.Config
 
+config :phoenix, :filter_parameters, {:keep, ["username", "user_created"]}
+
 config :phoenix_demo,
   ecto_repos: [PhoenixDemo.Repo]
 
