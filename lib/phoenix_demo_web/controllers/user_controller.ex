@@ -14,8 +14,28 @@ defmodule PhoenixDemoWeb.UserController do
   end
 
   def index(conn, _params) do
-    tagging()
-    slow()
+    # tagging()
+    # slow()
+
+    try do
+      raise "Exception! 2"
+    catch
+      kind, reason ->
+        Appsignal.send_error(kind, reason, __STACKTRACE__, fn span ->
+          Appsignal.Span.set_sample_data(
+          Appsignal.Tracer.root_span,
+          "custom_data",
+          %{
+            i18n: %{
+              locale: "en_GB",
+              default_locale: "en_US"
+            }
+          }
+        )
+        end)
+    end
+
+
     users = Accounts.list_users()
     render(conn, "index.html", users: users)
   end
@@ -26,7 +46,9 @@ defmodule PhoenixDemoWeb.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
+    Appsignal.Span.set_sample_data(Appsignal.Tracer.root_span, "tags", %{tag1: "value1", tag2: "value2"})
     Appsignal.increment_counter("user_created", 1)
+    Appsignal.increment_counter("random_name", 1, %{tag1: "value1", tag2: "value2"})
     case Accounts.create_user(user_params) do
       {:ok, user} ->
         conn
@@ -38,6 +60,29 @@ defmodule PhoenixDemoWeb.UserController do
   end
 
   def show(conn, %{"id" => id}) do
+
+          # Appsignal.Span.set_sample_data(
+          # Appsignal.Tracer.root_span,
+          # "custom_data",
+          # %{key_1: "BBBBB", key_2: "CCCCCC"} # to be replaced by payload
+          # )
+          raise "Exception 2-1!"
+    # try do
+    #   raise "Exception 2-1!"
+
+    # catch
+    #   kind, reason ->
+    #   Appsignal.Span.set_sample_data(
+    #   Appsignal.Tracer.root_span(),
+    #   "custom_data",
+    #   %{key_1: "BBBBB_set_error", key_2: "CCCCCC"} # to be replaced by payload
+    #   )
+    #   Appsignal.set_error(kind, reason, __STACKTRACE__)
+
+    # end
+
+
+
     Appsignal.set_gauge("Views", 100, %{tag_a: "a", tag_b: "b"})
     user = Accounts.get_user!(id)
     render(conn, "show.html", user: user)
@@ -90,4 +135,5 @@ defmodule PhoenixDemoWeb.UserController do
       :timer.sleep(1000)
     end)
   end
+
 end

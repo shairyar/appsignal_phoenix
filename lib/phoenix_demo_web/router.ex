@@ -8,6 +8,7 @@ defmodule PhoenixDemoWeb.Router do
     plug :put_root_layout, {PhoenixDemoWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug CustomPlug
   end
 
   pipeline :api do
