@@ -1,14 +1,14 @@
 defmodule PhoenixDemoWeb.PostLive.Index do
   use PhoenixDemoWeb, :live_view
   use Phoenix.LiveView
-  import Appsignal.Phoenix.LiveView, only: [live_view_action: 4]
+  import Appsignal.Phoenix.LiveView, only: [instrument: 4]
 
   alias PhoenixDemo.Timeline
   alias PhoenixDemo.Timeline.Post
 
   @impl true
   def mount(_params, _session, socket) do
-    live_view_action(__MODULE__, "mount", socket, fn ->
+    instrument(__MODULE__, "mount", socket, fn ->
       Appsignal.Span.set_sample_data(Appsignal.Tracer.root_span, "custom_data", %{
         name: "John Doe"
       })
@@ -54,19 +54,18 @@ defmodule PhoenixDemoWeb.PostLive.Index do
 
   @impl true
   def handle_info({:post_created, post}, socket) do
-    live_view_action(__MODULE__, "post_created", socket, fn ->
+    instrument(__MODULE__, "post_created", socket, fn ->
       {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
     end)
   end
 
   def handle_info({:post_updated, post}, socket) do
-    live_view_action(__MODULE__, "post_updated", socket, fn ->
+    instrument(__MODULE__, "post_updated", socket, fn ->
       {:noreply, update(socket, :posts, fn posts -> [post | posts] end)}
     end)
   end
 
   defp fetch_posts do
-    raise 'oops'
     Timeline.list_posts()
   end
 end
